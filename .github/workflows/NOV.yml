@@ -1,5 +1,5 @@
-name: Azure Continuous Delivery
-
+name: Azure Continuous Delivery Nicolas
+ 
 on:
   workflow_dispatch:
     inputs:
