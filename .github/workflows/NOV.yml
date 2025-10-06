@@ -20,7 +20,7 @@ on:
         default: '443'
 
 env:
-  IMAGE_URL: ${{ secrets.ACR_NAME_NICOLAS }}.azurecr.io/${{ github.event.inputs.IMAGE_REPOSITORY }}:${{ github.event.inputs.IMAGE_TAG }}
+  IMAGE_URL: ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.IMAGE_REPOSITORY }}:${{ github.event.inputs.IMAGE_TAG }}
 
 jobs:
   build-and-push-image:
@@ -34,9 +34,9 @@ jobs:
       - name: Docker Login
         uses: azure/docker-login@v1
         with:
-          login-server: ${{ secrets.ACR_NAME_NICOLAS }}.azurecr.io
-          username: ${{ secrets.ACR_NAME_NICOLAS }}
-          password: ${{ secrets.ACR_PASSWORD_NICOLAS }}
+          login-server: ${{ secrets.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_NAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and Push to ACR
         uses: docker/build-push-action@v6
@@ -77,7 +77,7 @@ jobs:
       - name: Test API
         run: |
           hurl \
-            --variable host=https://${{ github.event.inputs.AZURE_WEBAPP_NAME }}.azurewebsites.net:${{ github.event.inputs.PORT }} \
+            --variable host=https://${{ github.event.inputs.AZURE_WEBAPP_NAME }}.azurewebsites.net \
             --connect-timeout 20s \
             --error-format long \
             --verbose \
