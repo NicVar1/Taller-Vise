@@ -41,9 +41,10 @@ jobs:
       - name: Build and Push to ACR
         uses: docker/build-push-action@v6
         with:
+          context: ./app               
+          file: ./app/Dockerfile      
           push: true
           tags: ${{ env.IMAGE_URL }}
-          file: Dockerfile
 
   deploy:
     name: 'Deploy remote container to Azure'

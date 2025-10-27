@@ -1,18 +1,18 @@
 # Usa Python 3.11 slim
 FROM python:3.11-slim
 
-# Carpeta de trabajo
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copiar requirements y instalar
+# Copiar requirements e instalarlos
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar toda la aplicación dentro de un subdirectorio "app"
-COPY . ./app
+# Copiar el contenido de la carpeta actual (donde está main.py dentro de /app)
+COPY . .
 
-# Exponer el puerto de la API
+# Exponer el puerto dinámico de Azure
 EXPOSE 8000
 
-# CMD para levantar FastAPI con OpenTelemetry
-CMD ["opentelemetry-instrument", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando para ejecutar FastAPI (usa $PORT que Azure define automáticamente)
+CMD ["opentelemetry-instrument", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
