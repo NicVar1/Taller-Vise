@@ -1,21 +1,20 @@
-# Usa Python 3.11 slim
+# Imagen base
 FROM python:3.11-slim
 
-# Instalar dependencias del sistema (útil para telemetría y diagnósticos)
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-
-# Establecer directorio de trabajo
+# Carpeta de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar e instalar dependencias
-COPY requirements.txt .
+# Copiar requirements
+COPY app/requirements.txt .
+
+# Instalar dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar todo el código del proyecto (incluyendo la carpeta app/)
-COPY . .
+# Copiar toda la aplicación (solo la carpeta app)
+COPY app/ .
 
-# Exponer el puerto (documentativo)
+# Exponer el puerto
 EXPOSE 8000
 
-# Ejecutar FastAPI con OpenTelemetry y puerto dinámico (Azure usa la variable $PORT)
-CMD ["sh", "-c", "opentelemetry-instrument uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Comando de inicio
+CMD ["sh", "-c", "opentelemetry-instrument uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
