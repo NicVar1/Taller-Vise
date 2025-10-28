@@ -16,3 +16,7 @@ opentelemetry-instrumentation-urllib==0.49b2
 
 # --- Prometheus (métricas) ---
 prometheus-client==0.21.0
+
+# --- Azure Monitor Exporter ---
+opentelemetry-exporter-
+azure-monitor-opentelemetry
