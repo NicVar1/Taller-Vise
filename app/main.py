@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from app.routes import client_routes, purchase_routes
-
+import uvicorn
 # --- 🔹 OpenTelemetry imports
 from opentelemetry import trace, metrics
 from opentelemetry.sdk.resources import Resource
@@ -73,7 +73,12 @@ async def root():
     request_counter.add(1, {"endpoint": "root"})
     return {"message": "VISE Payments API - Sistema de procesamiento de pagos"}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 # --- 🔹 Ejecutar app
+
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

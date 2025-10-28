@@ -1,3 +1,6 @@
+GET {{host}}/health
+HTTP 200
+
 # Card restrictions
 
 # Classic - should register without restrictions
